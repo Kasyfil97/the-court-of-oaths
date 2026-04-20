@@ -23,7 +23,7 @@ class MapScene extends Phaser.Scene {
     this._updatePositions(false);
 
     // Turn counter
-    this._turnTxt = this.add.text(730, 22, 'TURN ' + GameState.turnNumber, {
+    this._turnTxt = this.add.text(660, 22, 'TURN ' + GameState.turnNumber, {
       fontFamily: 'Press Start 2P',
       fontSize: '9px',
       color: '#aaaaaa',
@@ -31,6 +31,9 @@ class MapScene extends Phaser.Scene {
 
     // Win condition hint
     this._buildWinHints();
+
+    // Menu button (top-right)
+    this._buildMenuOverlay();
   }
 
   _buildPlayerHUD() {
@@ -109,7 +112,7 @@ class MapScene extends Phaser.Scene {
     s.play(cls + '_idle');
     this._sprites['player'] = s;
 
-    const lbl = this.add.text(400, 470, 'YOU', {
+    const lbl = this.add.text(400, 450, 'YOU', {
       fontFamily: 'Press Start 2P', fontSize: '8px', color: '#ffdd44',
     }).setOrigin(0.5);
     this._nameLabels['player'] = lbl;
@@ -142,7 +145,7 @@ class MapScene extends Phaser.Scene {
   }
 
   _updatePositions(tween = true) {
-    const update = (key, res) => {
+    const update = (key, res, lblOffset = 28) => {
       const sprite = this._sprites[key];
       const lbl    = this._nameLabels[key];
       if (!sprite) return;
@@ -150,14 +153,14 @@ class MapScene extends Phaser.Scene {
       const y = this._roadY(total);
       if (tween) {
         this.tweens.add({ targets: sprite, y, duration: 600, ease: 'Quad.Out' });
-        if (lbl) this.tweens.add({ targets: lbl, y: y - 28, duration: 600, ease: 'Quad.Out' });
+        if (lbl) this.tweens.add({ targets: lbl, y: y - lblOffset, duration: 600, ease: 'Quad.Out' });
       } else {
         sprite.y = y;
-        if (lbl) lbl.y = y - 28;
+        if (lbl) lbl.y = y - lblOffset;
       }
     };
 
-    update('player', GameState.player);
+    update('player', GameState.player, 50);
     for (const opp of GameState.opponents) {
       update(opp.id, { gold: opp.gold, trust: opp.trust, honor: opp.honor });
     }
@@ -184,6 +187,53 @@ class MapScene extends Phaser.Scene {
         fontFamily: 'Press Start 2P', fontSize: '7px', color: '#666688',
       });
     });
+  }
+
+  _buildMenuOverlay() {
+    // Dimmer overlay (hidden by default)
+    const dimmer = this.add.rectangle(400, 300, 800, 600, 0x000000, 0.6)
+      .setDepth(10).setVisible(false).setInteractive();
+    dimmer.on('pointerdown', () => this._toggleMenu(false));
+
+    // Panel
+    const panel = this.add.rectangle(400, 300, 220, 130, 0x0a0a1e, 0.97)
+      .setStrokeStyle(1, 0x6644aa).setDepth(11).setVisible(false);
+
+    const makeBtn = (y, label, cb) => {
+      const bg = this.add.rectangle(400, y, 180, 36, 0x1a1a3e)
+        .setStrokeStyle(1, 0x6644aa).setDepth(12).setVisible(false).setInteractive({ useHandCursor: true });
+      const txt = this.add.text(400, y, label, {
+        fontFamily: 'Press Start 2P', fontSize: '8px', color: '#cccccc',
+      }).setOrigin(0.5).setDepth(13).setVisible(false);
+      bg.on('pointerover', () => { bg.setFillStyle(0x332255); txt.setColor('#ffffff'); });
+      bg.on('pointerout',  () => { bg.setFillStyle(0x1a1a3e); txt.setColor('#cccccc'); });
+      bg.on('pointerdown', cb);
+      return [bg, txt];
+    };
+
+    const [rb, rt] = makeBtn(278, 'RESTART', () => {
+      Object.assign(GameState, { turnNumber: 0, player: { gold: 30, trust: 30, honor: 30 } });
+      this.scene.start('SetupScene');
+    });
+    const [hb, ht] = makeBtn(322, 'HOME', () => this.scene.start('TitleScene'));
+
+    this._menuItems = [dimmer, panel, rb, rt, hb, ht];
+    this._menuOpen  = false;
+
+    // Hamburger button in top-right header
+    const btn = this.add.text(778, 22, '\u2630', {
+      fontFamily: 'Press Start 2P', fontSize: '11px', color: '#aaaaaa',
+    }).setOrigin(0.5).setDepth(14).setInteractive({ useHandCursor: true });
+    btn.on('pointerover', () => btn.setColor('#ffffff'));
+    btn.on('pointerout',  () => btn.setColor(this._menuOpen ? '#ffffff' : '#aaaaaa'));
+    btn.on('pointerdown', () => this._toggleMenu());
+    this._menuBtn = btn;
+  }
+
+  _toggleMenu(forceClose) {
+    this._menuOpen = forceClose === false ? false : !this._menuOpen;
+    this._menuItems.forEach(o => o.setVisible(this._menuOpen));
+    this._menuBtn.setColor(this._menuOpen ? '#ffffff' : '#aaaaaa');
   }
 
   // Called when returning from BattleScene
