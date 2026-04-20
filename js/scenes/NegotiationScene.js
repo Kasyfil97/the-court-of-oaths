@@ -9,9 +9,9 @@ class NegotiationScene extends Phaser.Scene {
     this.add.rectangle(400, 300, 800, 600, 0x000000, 0.7);
 
     // Panel
-    this.add.rectangle(400, 280, 500, 360, 0x0e0e24).setStrokeStyle(2, 0x886600);
+    this.add.rectangle(400, 285, 500, 430, 0x0e0e24).setStrokeStyle(2, 0x886600);
 
-    this.add.text(400, 130, 'NEGOTIATION', {
+    this.add.text(400, 110, 'NEGOTIATION', {
       fontFamily: 'Press Start 2P',
       fontSize: '16px',
       color: '#ffdd44',
@@ -20,19 +20,19 @@ class NegotiationScene extends Phaser.Scene {
     // Opponent info
     const botKey = GameState.opponents.indexOf(opp) % 2 === 0 ? 'bot_a' : 'bot_b';
     this.add.sprite(400, 210, botKey).setScale(3).play('bot_a_idle');
-    this.add.text(400, 258, opp.name.toUpperCase(), {
+    this.add.text(400, 300, opp.name.toUpperCase(), {
       fontFamily: 'Press Start 2P',
       fontSize: '10px',
       color: '#aaaacc',
     }).setOrigin(0.5);
-    this.add.text(400, 278, '(' + opp.botName + ')', {
+    this.add.text(400, 320, '(' + opp.botName + ')', {
       fontFamily: 'Press Start 2P',
       fontSize: '8px',
       color: '#666688',
     }).setOrigin(0.5);
 
     // Bot response text area
-    this._responseTxt = this.add.text(400, 320, '...', {
+    this._responseTxt = this.add.text(400, 375, '...', {
       fontFamily: 'Press Start 2P',
       fontSize: '9px',
       color: '#cccccc',
@@ -40,17 +40,20 @@ class NegotiationScene extends Phaser.Scene {
       align: 'center',
     }).setOrigin(0.5);
 
-    // Buttons
-    this._makeBtn(220, 390, 'PROMISE C', () => this._sendMessage('promise', opp), '#44ff88');
+    // Button bar container
+    this.add.rectangle(400, 455, 480, 54, 0x12122e).setStrokeStyle(2, 0x444466);
+
+    // Buttons — three equal sections filling the bar
+    this._makeBtn(241, 455, 'PROMISE C', () => this._sendMessage('promise', opp), '#44ff88');
     const canBribe = GameState.player.gold >= 5;
-    this._makeBtn(400, 390, 'BRIBE -5G', () => this._sendMessage('bribe', opp), canBribe ? '#ffdd44' : '#555555', canBribe);
-    this._makeBtn(580, 390, 'SKIP', () => this._proceed(), '#aaaaaa');
+    this._makeBtn(400, 455, 'BRIBE -5G', () => this._sendMessage('bribe', opp), canBribe ? '#ffdd44' : '#555555', canBribe);
+    this._makeBtn(559, 455, 'SKIP', () => this._proceed(), '#aaaaaa');
 
     // Continue button (appears after action or skip)
-    this._continueBtn = this.add.rectangle(400, 440, 200, 40, 0x1a3a1a, 0)
+    this._continueBtn = this.add.rectangle(400, 500, 200, 36, 0x1a3a1a, 0)
       .setStrokeStyle(0)
       .setInteractive({ useHandCursor: true });
-    this._continueTxt = this.add.text(400, 440, '', {
+    this._continueTxt = this.add.text(400, 500, '', {
       fontFamily: 'Press Start 2P',
       fontSize: '12px',
       color: '#44ff44',
@@ -60,8 +63,8 @@ class NegotiationScene extends Phaser.Scene {
   }
 
   _makeBtn(x, y, label, cb, color = '#ffffff', active = true) {
-    const bg = this.add.rectangle(x, y, 150, 36, 0x1a1a3a)
-      .setStrokeStyle(2, 0x444466);
+    const bg = this.add.rectangle(x, y, 158, 50, 0x1a1a3a)
+      .setStrokeStyle(1, 0x444466);
     const txt = this.add.text(x, y, label, {
       fontFamily: 'Press Start 2P',
       fontSize: '9px',
