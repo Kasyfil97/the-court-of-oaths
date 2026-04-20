@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Court of Oaths</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230a0a1e'/><text y='24' font-size='24'>⚔️</text></svg>">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #050510; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
+  </style>
+</head>
+<body>
+  <!-- Error overlay for development -->
+  <div id="err" style="display:none;position:fixed;top:0;left:0;right:0;background:#800;color:#fff;padding:8px;font-family:monospace;font-size:12px;z-index:9999;"></div>
+
+  <script>
+    window.onerror = (msg, src, line, col, err) => {
+      const el = document.getElementById('err');
+      el.style.display = 'block';
+      el.textContent = (err ? err.stack : msg) || msg;
+    };
+  </script>
+
+  <!-- Phaser 3 -->
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js"></script>
+
+  <!-- Game logic (dependency order: state → resources → classes → bots → scenes) -->
+  <script src="js/gameState.js"></script>
+  <script src="js/resources.js"></script>
+  <script src="js/classes.js"></script>
+  <script src="js/bots.js"></script>
+  <script src="js/scenes/BootScene.js"></script>
+  <script src="js/scenes/TitleScene.js"></script>
+  <script src="js/scenes/SetupScene.js"></script>
+  <script src="js/scenes/MapScene.js"></script>
+  <script src="js/scenes/NegotiationScene.js"></script>
+  <script src="js/scenes/BattleScene.js"></script>
+  <script src="js/scenes/WinScene.js"></script>
+
+  <script>
+    document.fonts.ready.then(() => {
+      new Phaser.Game({
+        type: Phaser.AUTO,
+        width: 800,
+        height: 600,
+        pixelArt: true,
+        backgroundColor: '#050510',
+        scene: [
+          BootScene,
+          TitleScene,
+          SetupScene,
+          MapScene,
+          NegotiationScene,
+          BattleScene,
+          WinScene,
+        ],
+      });
+    });
+  </script>
+</body>
+</html>
