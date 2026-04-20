@@ -1,5 +1,7 @@
 # The Court of Oaths
 
+![The Court of Oaths](screenshots/title-screen.png)
+
 A strategic prisoner's dilemma game where you negotiate, strategize, and compete against cunning AI opponents to become the most powerful figure in the court.
 
 ## Getting Started
