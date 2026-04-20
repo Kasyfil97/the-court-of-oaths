@@ -22,7 +22,7 @@ class SetupScene extends Phaser.Scene {
   }
 
   _buildClassPicker() {
-    this.add.text(100, 90, 'YOUR CLASS:', {
+    this.add.text(112, 90, 'YOUR CLASS:', {
       fontFamily: 'Press Start 2P',
       fontSize: '10px',
       color: '#aaaaaa',
@@ -33,7 +33,7 @@ class SetupScene extends Phaser.Scene {
     const spriteKeys = ['knight', 'rogue', 'merchant', 'spy'];
 
     CLASSES.forEach((cls, i) => {
-      const x = 120 + i * 155;
+      const x = 167 + i * 155;
       const y = 200;
 
       const border = this.add.rectangle(x, y, 110, 140, 0x1a1a3a)
@@ -96,7 +96,7 @@ class SetupScene extends Phaser.Scene {
   }
 
   _buildOpponentPicker() {
-    this.add.text(100, 440, 'RIVALS:', {
+    this.add.text(160, 440, 'RIVALS:', {
       fontFamily: 'Press Start 2P',
       fontSize: '10px',
       color: '#aaaaaa',
@@ -104,7 +104,7 @@ class SetupScene extends Phaser.Scene {
 
     this._countBtns = {};
     [2, 3, 4, 5].forEach((n, i) => {
-      const x = 240 + i * 70;
+      const x = 295 + i * 70;
       const bg = this.add.rectangle(x, 460, 56, 36, 0x1a1a3a)
         .setStrokeStyle(2, 0x444466)
         .setInteractive({ useHandCursor: true });
@@ -146,7 +146,7 @@ class SetupScene extends Phaser.Scene {
   }
 
   _buildBackBtn() {
-    const txt = this.add.text(30, 560, '< BACK', {
+    const txt = this.add.text(30, 520, '< BACK', {
       fontFamily: 'Press Start 2P',
       fontSize: '10px',
       color: '#888888',
