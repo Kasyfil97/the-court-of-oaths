@@ -103,8 +103,6 @@ class BattleScene extends Phaser.Scene {
 
     this._btnC.on('pointerdown', () => this._selectMove('C'));
     this._btnD.on('pointerdown', () => this._selectMove('D'));
-    this._btnC.setInteractive(false);
-    this._btnD.setInteractive(false);
 
     this._spyLabel = this.add.text(400, 200, '', {
       fontFamily: 'Press Start 2P', fontSize: '11px', color: '#cc44cc',
