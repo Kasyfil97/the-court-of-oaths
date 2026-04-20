@@ -220,20 +220,27 @@ class MapScene extends Phaser.Scene {
     this._menuItems = [dimmer, panel, rb, rt, hb, ht];
     this._menuOpen  = false;
 
-    // Hamburger button in top-right header
-    const btn = this.add.text(778, 22, '\u2630', {
-      fontFamily: 'Press Start 2P', fontSize: '11px', color: '#aaaaaa',
-    }).setOrigin(0.5).setDepth(14).setInteractive({ useHandCursor: true });
-    btn.on('pointerover', () => btn.setColor('#ffffff'));
-    btn.on('pointerout',  () => btn.setColor(this._menuOpen ? '#ffffff' : '#aaaaaa'));
+    // Menu button in top-right header
+    const btnBg = this.add.rectangle(765, 22, 60, 26, 0x1a1a3e)
+      .setStrokeStyle(1, 0x6644aa).setDepth(14).setInteractive({ useHandCursor: true });
+    const btn = this.add.text(765, 22, 'MENU', {
+      fontFamily: 'Press Start 2P', fontSize: '8px', color: '#aaaaaa',
+    }).setOrigin(0.5).setDepth(15).setInteractive({ useHandCursor: true });
+    btnBg.on('pointerover', () => { btnBg.setFillStyle(0x332255); btn.setColor('#ffffff'); });
+    btnBg.on('pointerout',  () => { btnBg.setFillStyle(0x1a1a3e); btn.setColor(this._menuOpen ? '#ffffff' : '#aaaaaa'); });
+    btnBg.on('pointerdown', () => this._toggleMenu());
+    btn.on('pointerover', () => { btnBg.setFillStyle(0x332255); btn.setColor('#ffffff'); });
+    btn.on('pointerout',  () => { btnBg.setFillStyle(0x1a1a3e); btn.setColor(this._menuOpen ? '#ffffff' : '#aaaaaa'); });
     btn.on('pointerdown', () => this._toggleMenu());
     this._menuBtn = btn;
+    this._menuBtnBg = btnBg;
   }
 
   _toggleMenu(forceClose) {
     this._menuOpen = forceClose === false ? false : !this._menuOpen;
     this._menuItems.forEach(o => o.setVisible(this._menuOpen));
     this._menuBtn.setColor(this._menuOpen ? '#ffffff' : '#aaaaaa');
+    this._menuBtnBg.setStrokeStyle(1, this._menuOpen ? 0xffdd44 : 0x6644aa);
   }
 
   // Called when returning from BattleScene
