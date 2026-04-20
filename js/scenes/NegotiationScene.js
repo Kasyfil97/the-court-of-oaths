@@ -9,7 +9,7 @@ class NegotiationScene extends Phaser.Scene {
     this.add.rectangle(400, 300, 800, 600, 0x000000, 0.7);
 
     // Panel
-    this.add.rectangle(400, 290, 500, 470, 0x0e0e24).setStrokeStyle(2, 0x886600);
+    this.add.rectangle(400, 275, 500, 430, 0x0e0e24).setStrokeStyle(2, 0x886600);
 
     this.add.text(400, 110, 'NEGOTIATION', {
       fontFamily: 'Press Start 2P',
@@ -50,10 +50,10 @@ class NegotiationScene extends Phaser.Scene {
     this._makeBtn(559, 455, 'SKIP', () => this._proceed(), '#aaaaaa');
 
     // Continue button (appears after action or skip)
-    this._continueBtn = this.add.rectangle(400, 510, 460, 40, 0x1a3a1a, 0)
+    this._continueBtn = this.add.rectangle(400, 517, 200, 36, 0x1a3a1a, 0)
       .setStrokeStyle(0)
       .setInteractive({ useHandCursor: true });
-    this._continueTxt = this.add.text(400, 510, '', {
+    this._continueTxt = this.add.text(400, 517, '', {
       fontFamily: 'Press Start 2P',
       fontSize: '12px',
       color: '#44ff44',
