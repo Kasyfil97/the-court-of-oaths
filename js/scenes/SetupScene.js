@@ -146,7 +146,7 @@ class SetupScene extends Phaser.Scene {
   }
 
   _buildBackBtn() {
-    const txt = this.add.text(30, 520, '< BACK', {
+    const txt = this.add.text(30, 40, '< BACK', {
       fontFamily: 'Press Start 2P',
       fontSize: '10px',
       color: '#888888',
