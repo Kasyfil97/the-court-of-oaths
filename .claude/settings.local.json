@@ -19,7 +19,9 @@
       "Bash(grep -E \"\\\\.\\(py|js|html\\)$\")",
       "Bash(python3 -m http.server 8080)",
       "Bash(echo \"Server PID: $!\")",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8080/index.html)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8080/index.html)",
+      "Bash(docker-compose build:*)",
+      "Bash(kill 8197:*)"
     ]
   }
 }

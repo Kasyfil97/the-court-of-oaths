@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  court-of-oaths:
+    build: .
+    container_name: court-of-oaths
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/usr/share/nginx/html
+    environment:
+      - TZ=UTC
