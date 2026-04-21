@@ -21,7 +21,8 @@
       "Bash(echo \"Server PID: $!\")",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8080/index.html)",
       "Bash(docker-compose build:*)",
-      "Bash(kill 8197:*)"
+      "Bash(kill 8197:*)",
+      "Bash(git add *)"
     ]
   }
 }

@@ -168,7 +168,7 @@ class MapScene extends Phaser.Scene {
 
   _buildWinHints() {
     const hints = [
-      { label: 'ECONOMY',   desc: 'Gold \u2265 100',      color: '#ffdd44' },
+      { label: 'ECONOMY',   desc: 'Gold \u2265 150',      color: '#ffdd44' },
       { label: 'DIPLOMACY', desc: 'Trust \u2265 70 \xd7 3', color: '#4488ff' },
       { label: 'DOMINATION',desc: '2 rivals \u2264 0 Gold', color: '#ff4444' },
       { label: 'HONOR',     desc: '15 turns, no Betray', color: '#eeeeee' },
@@ -196,7 +196,7 @@ class MapScene extends Phaser.Scene {
     dimmer.on('pointerdown', () => this._toggleMenu(false));
 
     // Panel
-    const panel = this.add.rectangle(400, 300, 220, 130, 0x0a0a1e, 0.97)
+    const panel = this.add.rectangle(400, 300, 220, 170, 0x0a0a1e, 0.97)
       .setStrokeStyle(1, 0x6644aa).setDepth(11).setVisible(false);
 
     const makeBtn = (y, label, cb) => {
@@ -211,13 +211,14 @@ class MapScene extends Phaser.Scene {
       return [bg, txt];
     };
 
-    const [rb, rt] = makeBtn(278, 'RESTART', () => {
-      Object.assign(GameState, { turnNumber: 0, player: { gold: 30, trust: 30, honor: 30 } });
+    const [hpb, hpt] = makeBtn(258, 'HOW TO PLAY', () => this._showHowToPlay());
+    const [rb, rt] = makeBtn(300, 'RESTART', () => {
+      Object.assign(GameState, { turnNumber: 0, player: { gold: 20, trust: 30, honor: 30 } });
       this.scene.start('SetupScene');
     });
-    const [hb, ht] = makeBtn(322, 'HOME', () => this.scene.start('TitleScene'));
+    const [hb, ht] = makeBtn(342, 'HOME', () => this.scene.start('TitleScene'));
 
-    this._menuItems = [dimmer, panel, rb, rt, hb, ht];
+    this._menuItems = [dimmer, panel, hpb, hpt, rb, rt, hb, ht];
     this._menuOpen  = false;
 
     // Menu button in top-right header
@@ -234,6 +235,59 @@ class MapScene extends Phaser.Scene {
     btn.on('pointerdown', () => this._toggleMenu());
     this._menuBtn = btn;
     this._menuBtnBg = btnBg;
+  }
+
+  _showHowToPlay() {
+    this._toggleMenu(false);
+
+    // Create a modal for How to Play
+    const modalBg = this.add.rectangle(400, 300, 750, 550, 0x0a0a1e, 0.98)
+      .setStrokeStyle(2, 0xffdd44).setDepth(20);
+
+    const title = this.add.text(400, 50, 'HOW TO PLAY', {
+      fontFamily: 'Press Start 2P', fontSize: '14px', color: '#ffdd44',
+    }).setOrigin(0.5).setDepth(21);
+
+    const sections = [
+      { header: 'BOT LEARNING & ADAPTATION', color: '#ff6b6b',
+        body: 'Bots now adapt to your playstyle.\nBetray frequently? They will punish you.\nCooperate? Some may test your trust.\nNo archetype is predictable!' },
+      { header: 'ECONOMIC SCARCITY', color: '#4ecdc4',
+        body: 'Starting gold reduced to 20.\nEconomy win now requires 150 gold.\nGold value decreases as more\ncirculates (inflation mechanic).' },
+      { header: 'NEW STRATEGY', color: '#95e1d3',
+        body: 'Balance multiple win conditions.\nUse Trust & Honor routes.\nDomination requires careful targeting.\nAdapt your strategy mid-game!' },
+    ];
+
+    let y = 120;
+    sections.forEach((sec) => {
+      this.add.text(40, y, sec.header, {
+        fontFamily: 'Press Start 2P', fontSize: '8px', color: sec.color,
+      }).setOrigin(0).setDepth(21);
+      y += 22;
+      this.add.text(50, y, sec.body, {
+        fontFamily: 'Press Start 2P', fontSize: '6px', color: '#cccccc',
+        wordWrap: { width: 700 },
+      }).setOrigin(0).setDepth(21);
+      y += 70;
+    });
+
+    // Close button
+    const closeBtn = this.add.rectangle(400, 520, 120, 36, 0x1a1a3e)
+      .setStrokeStyle(1, 0xffdd44).setDepth(22).setInteractive({ useHandCursor: true });
+    const closeTxt = this.add.text(400, 520, 'CLOSE', {
+      fontFamily: 'Press Start 2P', fontSize: '8px', color: '#cccccc',
+    }).setOrigin(0.5).setDepth(23);
+
+    const closeHandler = () => {
+      modalBg.destroy();
+      title.destroy();
+      sections.forEach(() => {/* text elements destroyed via forEach */});
+      closeBtn.destroy();
+      closeTxt.destroy();
+    };
+
+    closeBtn.on('pointerover', () => { closeBtn.setFillStyle(0x332255); closeTxt.setColor('#ffffff'); });
+    closeBtn.on('pointerout',  () => { closeBtn.setFillStyle(0x1a1a3e); closeTxt.setColor('#cccccc'); });
+    closeBtn.on('pointerdown', closeHandler);
   }
 
   _toggleMenu(forceClose) {
