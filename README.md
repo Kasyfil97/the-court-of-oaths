@@ -73,9 +73,10 @@ From the title screen click **NEW GAME** and the Mode Select page will appear wi
 
 ### Blind Court
 - **Archetype labels are never revealed.** In the Negotiation screen you only see `( ??? )`.
+- **Archetypes are randomized every new game.** House Aurum might be The Saint in one run and The Serpent in the next — you can't memorize the assignment across runs, you have to read the rival in front of you.
 - You must **deduce each rival's strategy from their actual moves** — read patterns, test with a probe betrayal, remember who held a grudge.
 - Harder. Designed for players who already know the archetypes and want a real strategic challenge: how much Gold can you collect when you're flying half-blind?
-- The same 5 archetypes are still in the pool (see below) — the puzzle is figuring out which house is which.
+- The same 5 archetypes are still in the pool (see below) — the puzzle is figuring out which house is which, every game.
 
 > Tip for Blind Court: early-game "scout" turns pay off. Cooperate once, betray once, and watch the rival's response — that's usually enough to narrow down the archetype.
 

@@ -67,11 +67,12 @@ class ModeSelectScene extends Phaser.Scene {
       borderColor: 0xaa6644,
       lines: [
         'Archetypes are',
-        'NEVER revealed.',
+        'NEVER revealed and',
+        'RANDOMIZED every',
+        'new game.',
         '',
-        'Deduce each rival\'s',
-        'strategy from their',
-        'moves. Harder.',
+        'Deduce each rival',
+        'from their moves.',
       ],
       onPick: () => {
         GameState.difficulty = 'blind';
