@@ -1,26 +1,6 @@
-const STARTING_RESOURCES = { gold: 20, trust: 30, honor: 30 };
+const STARTING_RESOURCES = { gold: 30, trust: 30, honor: 30 };
 const MAX_RESOURCE = 120;
 const MIN_RESOURCE = 0;
-
-// Economic scarcity: Calculate gold multiplier based on total circulation
-// Higher total gold in play = less value per gold (inflation)
-function getGoldMultiplier(totalGoldInPlay) {
-  // Base total gold at game start: 20 gold × (player + 3 opponents) = 80 gold
-  const baseTotal = 80;
-  if (totalGoldInPlay <= baseTotal) return 1.0; // Normal value
-  if (totalGoldInPlay > baseTotal * 1.5) return 0.7; // Severe inflation: 30% less value
-  // Linear scaling between 0.7 and 1.0
-  return 1.0 - (0.3 * ((totalGoldInPlay - baseTotal) / (baseTotal * 0.5)));
-}
-
-// Calculate total gold in circulation
-function calculateTotalGoldInPlay(gameState) {
-  let total = gameState.player.gold;
-  for (const opp of gameState.opponents) {
-    total += opp.gold;
-  }
-  return total;
-}
 
 // Returns { playerDelta, oppDelta } — plain objects with gold/trust/honor keys.
 // Deltas are applied then clamped by the caller.
@@ -78,8 +58,8 @@ function applyDelta(res, delta) {
 function checkWinConditions(state) {
   const { player, opponents, neverBetrayed, turnNumber, opponentCount } = state;
 
-  // Economy — Increased from 100 to 150 (scarcity makes it harder)
-  if (player.gold >= 150) return 'economy';
+  // Economy
+  if (player.gold >= 100) return 'economy';
 
   // Domination — need min(2, opponentCount) eliminated
   const eliminated = opponents.filter(o => o.gold <= 0).length;

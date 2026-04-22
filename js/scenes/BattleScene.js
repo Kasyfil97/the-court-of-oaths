@@ -190,13 +190,7 @@ class BattleScene extends Phaser.Scene {
     this._showBubble(this._oBubble, this._oBubbleTxt, oMove === 'C' ? 'COOPERATE' : 'BETRAY');
 
     // Compute deltas
-    let { playerDelta, oppDelta } = OUTCOME(pMove, oMove, cls);
-
-    // Apply economic multiplier (gold inflation/deflation)
-    const totalGold = calculateTotalGoldInPlay(GameState);
-    const multiplier = getGoldMultiplier(totalGold);
-    playerDelta.gold = Math.round(playerDelta.gold * multiplier);
-    oppDelta.gold = Math.round(oppDelta.gold * multiplier);
+    const { playerDelta, oppDelta } = OUTCOME(pMove, oMove, cls);
 
     // Float resource deltas
     this._floatDelta(200, 240, playerDelta);
