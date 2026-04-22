@@ -2,6 +2,10 @@ class MapScene extends Phaser.Scene {
   constructor() { super('MapScene'); }
 
   create() {
+    // Play map music
+    const audioManager = this.registry.get('audioManager');
+    audioManager.playMusic('music_map');
+
     this._sprites = {};
     this._nameLabels = {};
     this._portraits = {};

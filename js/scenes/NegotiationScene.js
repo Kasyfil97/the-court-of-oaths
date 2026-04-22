@@ -2,6 +2,10 @@ class NegotiationScene extends Phaser.Scene {
   constructor() { super('NegotiationScene'); }
 
   create() {
+    // Play negotiation music
+    const audioManager = this.registry.get('audioManager');
+    audioManager.playMusic('music_negotiation');
+
     const opp = GameState.getCurrentOpponent();
     if (!opp) { this.scene.start('MapScene'); return; }
 

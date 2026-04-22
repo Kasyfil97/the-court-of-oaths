@@ -2,6 +2,10 @@ class TitleScene extends Phaser.Scene {
   constructor() { super('TitleScene'); }
 
   create() {
+    // Play title music
+    const audioManager = this.registry.get('audioManager');
+    audioManager.playMusic('music_title');
+
     // Background — deep starfield
     this.add.rectangle(400, 300, 800, 600, 0x05050f);
     this._drawStars();

@@ -2,6 +2,10 @@ class WinScene extends Phaser.Scene {
   constructor() { super('WinScene'); }
 
   create() {
+    // Play victory music
+    const audioManager = this.registry.get('audioManager');
+    audioManager.playMusic('music_victory');
+
     this.add.rectangle(400, 300, 800, 600, 0x050510);
 
     const win = GameState.winCondition || 'economy';
