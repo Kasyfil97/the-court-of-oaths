@@ -55,26 +55,11 @@ class TitleScene extends Phaser.Scene {
       color: '#886622',
     }).setOrigin(0.5);
 
-    // Buttons — two game modes side by side
-    this._makeBtn(258, 390, 'STANDARD', () => {
-      GameState.difficulty = 'normal';
-      this.scene.start('SetupScene');
-    }, '#44ff88', true, 240);
-    this._makeBtn(542, 390, 'BLIND COURT', () => {
-      GameState.difficulty = 'blind';
-      this.scene.start('SetupScene');
-    }, '#ff8844', true, 240);
-
-    // Mode hint under buttons
-    this.add.text(258, 416, 'archetypes shown', {
-      fontFamily: 'Press Start 2P', fontSize: '7px', color: '#558866',
-    }).setOrigin(0.5);
-    this.add.text(542, 416, 'archetypes hidden', {
-      fontFamily: 'Press Start 2P', fontSize: '7px', color: '#886655',
-    }).setOrigin(0.5);
+    // Buttons
+    this._makeBtn(400, 390, 'NEW GAME', () => this.scene.start('ModeSelectScene'), '#44ff88');
 
     const hasSave = GameState.hasSave();
-    this._makeBtn(400, 452, 'LOAD GAME', () => {
+    this._makeBtn(400, 446, 'LOAD GAME', () => {
       if (GameState.load()) {
         for (const opp of GameState.opponents) {
           const Cls = BOT_ARCHETYPES.find(B => new B().archetypeId === opp.archetype);
@@ -152,7 +137,7 @@ class TitleScene extends Phaser.Scene {
         title: 'GAME MODES',
         color: '#ff8844',
         lines: [
-          { text: 'STANDARD', color: '#44ff88' },
+          { text: 'NORMAL', color: '#44ff88' },
           { text: '  Each rival\'s archetype is', color: '#aaaaaa' },
           { text: '  shown during Negotiation.', color: '#aaaaaa' },
           { text: '  You know who you\'re facing.', color: '#aaaaaa' },
@@ -163,7 +148,7 @@ class TitleScene extends Phaser.Scene {
           { text: '  strategy from their moves.', color: '#aaaaaa' },
           { text: '  Harder. Collect more Gold.', color: '#ffdd44' },
           { text: '', color: '#cccccc' },
-          { text: 'Pick a mode on the title screen.', color: '#888888' },
+          { text: 'Pick a mode after NEW GAME.', color: '#888888' },
         ],
       },
       {
