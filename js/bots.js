@@ -69,11 +69,23 @@ const BOT_ARCHETYPES = [
   BotManipulator,
 ];
 
-// Build N bot instances, cycling through archetypes.
-function buildOpponents(count) {
+// Build N bot instances. Archetype order cycles by default (Normal mode)
+// or is shuffled per-game when `shuffle` is true (Blind Court), so the
+// player can't memorize which House is which archetype across runs.
+function buildOpponents(count, { shuffle = false } = {}) {
   const names = ['House Aurum', 'House Vex', 'House Crest', 'House Dorne', 'House Mora'];
-  return Array.from({ length: count }, (_, i) => {
-    const Cls = BOT_ARCHETYPES[i % BOT_ARCHETYPES.length];
+
+  // Build an archetype pool of length `count`. Cycle through BOT_ARCHETYPES
+  // first (so small counts still get variety), then shuffle if requested.
+  const pool = Array.from({ length: count }, (_, i) => BOT_ARCHETYPES[i % BOT_ARCHETYPES.length]);
+  if (shuffle) {
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+  }
+
+  return pool.map((Cls, i) => {
     const bot = new Cls();
     return {
       id: `opp_${i}`,

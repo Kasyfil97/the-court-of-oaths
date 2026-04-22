@@ -146,8 +146,9 @@ class SetupScene extends Phaser.Scene {
     bg.on('pointerover', () => bg.setFillStyle(0x2a5a2a));
     bg.on('pointerout',  () => bg.setFillStyle(0x1a3a1a));
     bg.on('pointerdown', () => {
-      const opponents = buildOpponents(this._opponentCount);
-      GameState.reset(this._selectedClass, this._opponentCount, opponents, GameState.difficulty || 'normal');
+      const difficulty = GameState.difficulty || 'normal';
+      const opponents = buildOpponents(this._opponentCount, { shuffle: difficulty === 'blind' });
+      GameState.reset(this._selectedClass, this._opponentCount, opponents, difficulty);
       this.scene.start('MapScene');
     });
   }
