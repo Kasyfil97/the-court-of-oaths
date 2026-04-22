@@ -1,12 +1,17 @@
 class BootScene extends Phaser.Scene {
   constructor() { super('BootScene'); }
 
+  preload() {
+    AudioManager.preloadAudio(this);
+  }
+
   create() {
     this._genMapBg();
     this._genUISprites();
     this._genLogo();
     this._genCharacters();
     this._genAnimations();
+    this.registry.set('audioManager', new AudioManager(this));
     this.scene.start('TitleScene');
   }
 

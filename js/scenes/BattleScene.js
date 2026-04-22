@@ -2,6 +2,10 @@ class BattleScene extends Phaser.Scene {
   constructor() { super('BattleScene'); }
 
   create() {
+    // Play battle music
+    const audioManager = this.registry.get('audioManager');
+    audioManager.playMusic('music_battle');
+
     this._opp = GameState.getCurrentOpponent();
     if (!this._opp) { this.scene.start('MapScene'); return; }
 
