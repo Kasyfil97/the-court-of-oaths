@@ -25,7 +25,8 @@ class NegotiationScene extends Phaser.Scene {
       fontSize: '10px',
       color: '#aaaacc',
     }).setOrigin(0.5);
-    this.add.text(400, 320, '(' + opp.botName + ')', {
+    const revealArchetype = GameState.difficulty !== 'blind';
+    this.add.text(400, 320, revealArchetype ? '(' + opp.botName + ')' : '( ??? )', {
       fontFamily: 'Press Start 2P',
       fontSize: '8px',
       color: '#666688',

@@ -55,11 +55,26 @@ class TitleScene extends Phaser.Scene {
       color: '#886622',
     }).setOrigin(0.5);
 
-    // Buttons
-    this._makeBtn(400, 390, 'NEW GAME', () => this.scene.start('SetupScene'), '#44ff88');
+    // Buttons — two game modes side by side
+    this._makeBtn(258, 390, 'STANDARD', () => {
+      GameState.difficulty = 'normal';
+      this.scene.start('SetupScene');
+    }, '#44ff88', true, 240);
+    this._makeBtn(542, 390, 'BLIND COURT', () => {
+      GameState.difficulty = 'blind';
+      this.scene.start('SetupScene');
+    }, '#ff8844', true, 240);
+
+    // Mode hint under buttons
+    this.add.text(258, 416, 'archetypes shown', {
+      fontFamily: 'Press Start 2P', fontSize: '7px', color: '#558866',
+    }).setOrigin(0.5);
+    this.add.text(542, 416, 'archetypes hidden', {
+      fontFamily: 'Press Start 2P', fontSize: '7px', color: '#886655',
+    }).setOrigin(0.5);
 
     const hasSave = GameState.hasSave();
-    this._makeBtn(400, 446, 'LOAD GAME', () => {
+    this._makeBtn(400, 452, 'LOAD GAME', () => {
       if (GameState.load()) {
         for (const opp of GameState.opponents) {
           const Cls = BOT_ARCHETYPES.find(B => new B().archetypeId === opp.archetype);
@@ -110,8 +125,8 @@ class TitleScene extends Phaser.Scene {
     });
   }
 
-  _makeBtn(x, y, label, cb, color = '#ffffff', active = true) {
-    const bg = this.add.rectangle(x, y, 260, 44, 0x1a1a3a)
+  _makeBtn(x, y, label, cb, color = '#ffffff', active = true, width = 260) {
+    const bg = this.add.rectangle(x, y, width, 44, 0x1a1a3a)
       .setStrokeStyle(2, 0x886600)
       .setInteractive({ useHandCursor: active });
 
@@ -133,6 +148,24 @@ class TitleScene extends Phaser.Scene {
     if (this._aboutOverlay) return;
 
     const PAGES = [
+      {
+        title: 'GAME MODES',
+        color: '#ff8844',
+        lines: [
+          { text: 'STANDARD', color: '#44ff88' },
+          { text: '  Each rival\'s archetype is', color: '#aaaaaa' },
+          { text: '  shown during Negotiation.', color: '#aaaaaa' },
+          { text: '  You know who you\'re facing.', color: '#aaaaaa' },
+          { text: '', color: '#cccccc' },
+          { text: 'BLIND COURT', color: '#ff8844' },
+          { text: '  Archetypes are NEVER shown.', color: '#aaaaaa' },
+          { text: '  You must deduce each rival\'s', color: '#aaaaaa' },
+          { text: '  strategy from their moves.', color: '#aaaaaa' },
+          { text: '  Harder. Collect more Gold.', color: '#ffdd44' },
+          { text: '', color: '#cccccc' },
+          { text: 'Pick a mode on the title screen.', color: '#888888' },
+        ],
+      },
       {
         title: 'THE DILEMMA',
         color: '#ffdd44',

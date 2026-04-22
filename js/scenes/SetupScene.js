@@ -14,6 +14,13 @@ class SetupScene extends Phaser.Scene {
       color: '#ffdd44',
     }).setOrigin(0.5);
 
+    const blind = GameState.difficulty === 'blind';
+    this.add.text(400, 64, blind ? 'MODE: BLIND COURT' : 'MODE: STANDARD', {
+      fontFamily: 'Press Start 2P',
+      fontSize: '8px',
+      color: blind ? '#ff8844' : '#44ff88',
+    }).setOrigin(0.5);
+
     this._buildDescBox();
     this._buildClassPicker();
     this._buildOpponentPicker();
@@ -140,7 +147,7 @@ class SetupScene extends Phaser.Scene {
     bg.on('pointerout',  () => bg.setFillStyle(0x1a3a1a));
     bg.on('pointerdown', () => {
       const opponents = buildOpponents(this._opponentCount);
-      GameState.reset(this._selectedClass, this._opponentCount, opponents);
+      GameState.reset(this._selectedClass, this._opponentCount, opponents, GameState.difficulty || 'normal');
       this.scene.start('MapScene');
     });
   }
