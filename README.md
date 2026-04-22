@@ -54,10 +54,30 @@ docker-compose up --build
 ## How to Play
 
 1. **Open the game**: Simply open `index.html` in your web browser (no installation needed)
-2. **Choose your class**: Select a character class with unique abilities
-3. **Pick your opponents**: Choose how many AI houses to compete against (1-5)
-4. **Compete in rounds**: Navigate the court, negotiate with opponents, and make Cooperate/Betray decisions
-5. **Win the game**: Reach one of four victory conditions before your opponents do
+2. **Pick a game mode**: On the title screen, choose **Standard** or **Blind Court** (see below)
+3. **Choose your class**: Select a character class with unique abilities
+4. **Pick your opponents**: Choose how many AI houses to compete against (1-5)
+5. **Compete in rounds**: Navigate the court, negotiate with opponents, and make Cooperate/Betray decisions
+6. **Win the game**: Reach one of four victory conditions before your opponents do
+
+---
+
+## Game Modes
+
+Choose your mode from the title screen before starting a new game.
+
+### Standard
+- Each rival's archetype label (e.g. *The Saint*, *The Serpent*) is shown in the Negotiation screen.
+- You know who you're up against and can pick the right counter-strategy immediately.
+- Recommended for first-time players learning the payoff matrix.
+
+### Blind Court
+- **Archetype labels are never revealed.** In the Negotiation screen you only see `( ??? )`.
+- You must **deduce each rival's strategy from their actual moves** — read patterns, test with a probe betrayal, remember who held a grudge.
+- Harder. Designed for players who already know the archetypes and want a real strategic challenge: how much Gold can you collect when you're flying half-blind?
+- The same 5 archetypes are still in the pool (see below) — the puzzle is figuring out which house is which.
+
+> Tip for Blind Court: early-game "scout" turns pay off. Cooperate once, betray once, and watch the rival's response — that's usually enough to narrow down the archetype.
 
 ---
 
@@ -83,8 +103,7 @@ Each class has unique passive and active abilities:
 ### Spy 🕵️
 - **Passive:** See your opponent's committed move for 1.5 seconds before you decide
 - **Active Ability (Frame Job):** Your opponent's bot perceives you as cooperating this turn (cooldown: 3 turns)
-- **Bonus:** Always see opponent archetypes from turn 1
-- Best for: Information-focused players who thrive on knowledge
+- Best for: Information-focused players who thrive on knowledge (especially in Blind Court, where this peek is your main read on a rival's strategy)
 
 ---
 
@@ -161,14 +180,14 @@ Each turn, a random **Court Event** appears that modifies the payoff matrix for 
 
 ---
 
-## Intel Dossiers (Hidden Archetypes)
+## Knowing Your Rivals
 
-Opponents' archetypes are hidden at first. Learn them through observation:
+How much you learn about each rival depends on the game mode:
 
-- **Turns 0-2:** `???` — Unknown
-- **Turns 3-5:** Hint revealed (e.g., "Has a long memory" for The Grudge)
-- **Turns 6+:** Full archetype name revealed
-- **Spy class:** Always sees full archetypes from turn 1
+- **Standard** — The rival's archetype label (e.g. *The Saint*) is shown during Negotiation.
+- **Blind Court** — The label is never shown. Only the rival's move history and how they respond to your actions will tell you who they are.
+
+In both modes, each rival's move history (the `C`/`D` pattern) is visible — that's your deduction material.
 
 ---
 
@@ -317,8 +336,8 @@ the-court-of-oaths/
 - **Storage:** Browser localStorage (auto-save)
 
 ### Key Features
+- **Two Game Modes** — Standard (archetypes shown) and Blind Court (archetypes hidden, deduce from behavior)
 - **Court Events** — 10 random events that modify payoff each turn
-- **Intel Dossiers** — Hidden opponent archetypes revealed over time
 - **Active Abilities** — Class-specific cooldown abilities (3-turn cooldown)
 - **Negotiation System** — Promise/Bribe before battle to influence outcomes
 - **Auto-Save** — Game state persists in localStorage

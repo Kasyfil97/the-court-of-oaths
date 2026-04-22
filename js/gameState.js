@@ -9,8 +9,9 @@ const GameState = {
   opponentCount: 3,
   currentOpponentId: null,
   pendingNegotiation: null,
+  difficulty: 'normal',    // 'normal' | 'blind'
 
-  reset(playerClass, opponentCount, opponents) {
+  reset(playerClass, opponentCount, opponents, difficulty = 'normal') {
     this.playerClass = playerClass;
     this.opponentCount = opponentCount;
     this.player = { gold: 30, trust: 30, honor: 30 };
@@ -21,6 +22,7 @@ const GameState = {
     this.winCondition = null;
     this.currentOpponentId = null;
     this.pendingNegotiation = null;
+    this.difficulty = difficulty;
     for (const opp of opponents) {
       this.playerMoveHistory[opp.id] = [];
     }
@@ -36,6 +38,7 @@ const GameState = {
       neverBetrayed: this.neverBetrayed,
       winCondition: this.winCondition,
       opponentCount: this.opponentCount,
+      difficulty: this.difficulty,
     };
     localStorage.setItem('court_save', JSON.stringify(data));
   },
@@ -47,6 +50,7 @@ const GameState = {
     Object.assign(this, data);
     this.currentOpponentId = null;
     this.pendingNegotiation = null;
+    if (!this.difficulty) this.difficulty = 'normal';
     return true;
   },
 
